@@ -1,0 +1,566 @@
+/* =============================================================================
+ * @goodapps/react-a11y-widget — Styles
+ * Import this file in your app: import "@goodapps/react-a11y-widget/styles";
+ * ============================================================================= */
+
+/* ─── CSS Custom Properties (override these to theme the widget) ──────────── */
+:root {
+  /* Core colors */
+  --ga11y-primary: #172c3f;
+  --ga11y-primary-fg: #ffffff;
+  --ga11y-bg: #ffffff;
+  --ga11y-fg: #0f172a;
+  --ga11y-muted: #f1f5f9;
+  --ga11y-muted-fg: #64748b;
+  --ga11y-border: #e2e8f0;
+  --ga11y-destructive: #ef4444;
+  --ga11y-ring: #009ee3;
+
+  /* Panel */
+  --ga11y-panel-bg: rgba(255, 255, 255, 0.95);
+  --ga11y-panel-backdrop: blur(12px);
+  --ga11y-panel-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  --ga11y-panel-radius: 1rem;
+  --ga11y-panel-width: 320px;
+  --ga11y-panel-max-height: 70vh;
+
+  /* FAB */
+  --ga11y-fab-size: 48px;
+  --ga11y-fab-radius: 50%;
+  --ga11y-fab-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+
+  /* Options */
+  --ga11y-option-radius: 0.75rem;
+  --ga11y-option-active-bg: rgba(23, 44, 63, 0.08);
+  --ga11y-option-active-border: rgba(23, 44, 63, 0.25);
+
+  /* Toggle */
+  --ga11y-toggle-bg: rgba(100, 116, 139, 0.25);
+  --ga11y-toggle-active-bg: var(--ga11y-primary);
+
+  /* Typography */
+  --ga11y-font: inherit;
+  --ga11y-font-sm: 0.875rem;
+  --ga11y-font-xs: 0.75rem;
+  --ga11y-font-2xs: 0.6875rem;
+}
+
+/* ─── Dark mode overrides ─────────────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --ga11y-primary: #009ee3;
+    --ga11y-primary-fg: #ffffff;
+    --ga11y-bg: #172c3f;
+    --ga11y-fg: #f8fafc;
+    --ga11y-muted: #1c2f3e;
+    --ga11y-muted-fg: #94a3b8;
+    --ga11y-border: rgba(255, 255, 255, 0.05);
+    --ga11y-panel-bg: rgba(23, 44, 63, 0.95);
+    --ga11y-panel-shadow:
+      0 24px 64px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    --ga11y-option-active-bg: rgba(0, 158, 227, 0.1);
+    --ga11y-option-active-border: rgba(0, 158, 227, 0.3);
+    --ga11y-toggle-bg: rgba(148, 163, 184, 0.25);
+  }
+}
+
+.dark {
+  --ga11y-primary: #009ee3;
+  --ga11y-primary-fg: #ffffff;
+  --ga11y-bg: #172c3f;
+  --ga11y-fg: #f8fafc;
+  --ga11y-muted: #1c2f3e;
+  --ga11y-muted-fg: #94a3b8;
+  --ga11y-border: rgba(255, 255, 255, 0.05);
+  --ga11y-panel-bg: rgba(23, 44, 63, 0.95);
+  --ga11y-panel-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --ga11y-option-active-bg: rgba(0, 158, 227, 0.1);
+  --ga11y-option-active-border: rgba(0, 158, 227, 0.3);
+  --ga11y-toggle-bg: rgba(148, 163, 184, 0.25);
+}
+
+/* =============================================================================
+ * 🧱 LAYOUT — Root & Positions
+ * ============================================================================= */
+.ga11y-root {
+  position: fixed;
+  font-family: var(--ga11y-font);
+}
+.ga11y-root--bl {
+  bottom: 16px;
+  left: 16px;
+}
+.ga11y-root--br {
+  bottom: 16px;
+  right: 16px;
+}
+.ga11y-root--tl {
+  top: 16px;
+  left: 16px;
+}
+.ga11y-root--tr {
+  top: 16px;
+  right: 16px;
+}
+
+/* =============================================================================
+ * 🔘 FAB (Floating Action Button)
+ * ============================================================================= */
+.ga11y-fab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ga11y-fab-size);
+  height: var(--ga11y-fab-size);
+  border-radius: var(--ga11y-fab-radius);
+  border: none;
+  background: var(--ga11y-primary);
+  color: var(--ga11y-primary-fg);
+  box-shadow: var(--ga11y-fab-shadow);
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+}
+.ga11y-fab:hover {
+  transform: scale(1.05);
+}
+.ga11y-fab:active {
+  transform: scale(0.95);
+}
+.ga11y-fab:focus-visible {
+  outline: 2px solid var(--ga11y-ring);
+  outline-offset: 2px;
+}
+.ga11y-fab--open {
+  opacity: 0.9;
+}
+
+.ga11y-fab__icon {
+  width: 24px;
+  height: 24px;
+}
+
+.ga11y-fab__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 50%;
+  background: var(--ga11y-destructive);
+  color: #fff;
+  line-height: 1;
+}
+
+/* =============================================================================
+ * 📋 PANEL
+ * ============================================================================= */
+.ga11y-panel {
+  position: absolute;
+  width: var(--ga11y-panel-width);
+  max-height: var(--ga11y-panel-max-height);
+  background: var(--ga11y-panel-bg);
+  backdrop-filter: var(--ga11y-panel-backdrop);
+  -webkit-backdrop-filter: var(--ga11y-panel-backdrop);
+  border: 1px solid var(--ga11y-border);
+  border-radius: var(--ga11y-panel-radius);
+  box-shadow: var(--ga11y-panel-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Panel positions relative to FAB */
+.ga11y-panel--bl {
+  bottom: calc(var(--ga11y-fab-size) + 12px);
+  left: 0;
+  animation: ga11y-fade-in-up 0.2s ease-out;
+}
+.ga11y-panel--br {
+  bottom: calc(var(--ga11y-fab-size) + 12px);
+  right: 0;
+  animation: ga11y-fade-in-up 0.2s ease-out;
+}
+.ga11y-panel--tl {
+  top: calc(var(--ga11y-fab-size) + 12px);
+  left: 0;
+  animation: ga11y-fade-in-down 0.2s ease-out;
+}
+.ga11y-panel--tr {
+  top: calc(var(--ga11y-fab-size) + 12px);
+  right: 0;
+  animation: ga11y-fade-in-down 0.2s ease-out;
+}
+
+@keyframes ga11y-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ga11y-fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ga11y-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid var(--ga11y-border);
+}
+
+.ga11y-panel__title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ga11y-primary);
+}
+
+.ga11y-panel__title {
+  margin: 0;
+  font-size: var(--ga11y-font-sm);
+  font-weight: 600;
+  color: var(--ga11y-fg);
+}
+
+.ga11y-panel__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ga11y-panel__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ga11y-muted-fg);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.ga11y-panel__btn:hover {
+  background: var(--ga11y-muted);
+  color: var(--ga11y-fg);
+}
+
+.ga11y-panel__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ga11y-panel__content::-webkit-scrollbar {
+  width: 6px;
+}
+.ga11y-panel__content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ga11y-panel__content::-webkit-scrollbar-thumb {
+  background: var(--ga11y-border);
+  border-radius: 10px;
+}
+
+.ga11y-panel__footer {
+  padding: 10px 16px;
+  border-top: 1px solid var(--ga11y-border);
+  text-align: center;
+  font-size: var(--ga11y-font-2xs);
+  color: var(--ga11y-muted-fg);
+}
+
+/* =============================================================================
+ * 🎛️ OPTION ROW
+ * ============================================================================= */
+.ga11y-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: var(--ga11y-option-radius);
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+  font-family: var(--ga11y-font);
+}
+
+.ga11y-option--inactive:hover {
+  background: var(--ga11y-muted);
+}
+
+.ga11y-option--active {
+  background: var(--ga11y-option-active-bg);
+  border-color: var(--ga11y-option-active-border);
+}
+
+.ga11y-option__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  transition:
+    background 0.15s,
+    color 0.15s;
+  background: var(--ga11y-muted);
+  color: var(--ga11y-muted-fg);
+}
+.ga11y-option__icon--active {
+  background: var(--ga11y-primary);
+  color: var(--ga11y-primary-fg);
+}
+
+.ga11y-option__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ga11y-option__label {
+  font-size: var(--ga11y-font-sm);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--ga11y-fg);
+}
+
+.ga11y-option__desc {
+  font-size: var(--ga11y-font-2xs);
+  color: var(--ga11y-muted-fg);
+  line-height: 1.25;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =============================================================================
+ * 🔀 TOGGLE SWITCH
+ * ============================================================================= */
+.ga11y-toggle {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  transition: background 0.2s;
+  background: var(--ga11y-toggle-bg);
+}
+.ga11y-toggle--active {
+  background: var(--ga11y-toggle-active-bg);
+}
+
+.ga11y-toggle__dot {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s;
+}
+.ga11y-toggle__dot--active {
+  transform: translateX(16px);
+}
+
+/* =============================================================================
+ * ●●● STEPPER DOTS
+ * ============================================================================= */
+.ga11y-stepper-dots {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.ga11y-stepper-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: background 0.15s;
+  background: var(--ga11y-toggle-bg);
+}
+.ga11y-stepper-dot--active {
+  background: var(--ga11y-primary);
+}
+
+/* =============================================================================
+ * 🔤 ICONS
+ * ============================================================================= */
+.ga11y-icon {
+  width: 18px;
+  height: 18px;
+}
+.ga11y-icon--sm {
+  width: 16px;
+  height: 16px;
+}
+
+/* =============================================================================
+ * 📏 READING GUIDE
+ * ============================================================================= */
+.ga11y-reading-guide {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 40px;
+  pointer-events: none;
+  border-top: 2px solid rgba(23, 44, 63, 0.25);
+  border-bottom: 2px solid rgba(23, 44, 63, 0.25);
+  background: rgba(23, 44, 63, 0.04);
+  transition: top 75ms linear;
+}
+
+.dark .ga11y-reading-guide {
+  border-color: rgba(0, 158, 227, 0.3);
+  background: rgba(0, 158, 227, 0.05);
+}
+
+/* =============================================================================
+ * ♿ ACCESSIBILITY MODES — Applied to <html> via useA11y hook
+ * ============================================================================= */
+
+/* ── Font size ─────────────────────────────────────────────────────────────── */
+html.a11y-font-lg {
+  font-size: 118.75%;
+}
+html.a11y-font-xl {
+  font-size: 137.5%;
+}
+
+/* ── Text spacing ──────────────────────────────────────────────────────────── */
+html.a11y-text-spacing body {
+  letter-spacing: 0.08em;
+  word-spacing: 0.16em;
+  line-height: 1.8;
+}
+
+/* ── Dyslexia font ─────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/woff/OpenDyslexic-Bold.woff")
+    format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+html.a11y-dyslexia-font body {
+  font-family: "OpenDyslexic", "Comic Sans MS", "Arial", sans-serif !important;
+}
+html.a11y-dyslexia-font * {
+  font-family: inherit !important;
+}
+
+/* ── High contrast ─────────────────────────────────────────────────────────── */
+html.a11y-high-contrast {
+  --ga11y-fg: #000000 !important;
+  --ga11y-bg: #ffffff !important;
+}
+html.a11y-high-contrast img {
+  filter: contrast(1.3);
+}
+
+html.a11y-high-contrast.dark {
+  --ga11y-fg: #ffffff !important;
+  --ga11y-bg: #000000 !important;
+}
+
+/* ── Highlight links ───────────────────────────────────────────────────────── */
+html.a11y-highlight-links a {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 3px !important;
+  color: #1d4ed8 !important;
+  outline: 1px dashed #1d4ed8;
+  outline-offset: 2px;
+}
+html.a11y-highlight-links.dark a {
+  color: #60a5fa !important;
+  outline-color: #60a5fa;
+}
+
+/* ── Pause animations (excludes the widget itself) ────────────────────────── */
+html.a11y-pause-animations *:not(.ga11y-root):not(.ga11y-root *),
+html.a11y-pause-animations *:not(.ga11y-root):not(.ga11y-root *)::before,
+html.a11y-pause-animations *:not(.ga11y-root):not(.ga11y-root *)::after {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+  scroll-behavior: auto !important;
+}
+
+/* ── Big cursor ────────────────────────────────────────────────────────────── */
+html.a11y-big-cursor,
+html.a11y-big-cursor * {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cpath d='M4 4l16 40 6-16 16-6z' fill='black' stroke='white' stroke-width='2'/%3E%3C/svg%3E")
+      4 4,
+    auto !important;
+}
+html.a11y-big-cursor a,
+html.a11y-big-cursor button,
+html.a11y-big-cursor [role="button"],
+html.a11y-big-cursor input,
+html.a11y-big-cursor textarea,
+html.a11y-big-cursor select {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Ccircle cx='24' cy='24' r='20' fill='none' stroke='black' stroke-width='4'/%3E%3Ccircle cx='24' cy='24' r='20' fill='none' stroke='white' stroke-width='2'/%3E%3Ccircle cx='24' cy='24' r='4' fill='black'/%3E%3C/svg%3E")
+      24 24,
+    pointer !important;
+}
+
+/* ── Saturation ────────────────────────────────────────────────────────────── */
+html.a11y-saturation-low body {
+  filter: saturate(0.2);
+}
+html.a11y-saturation-high body {
+  filter: saturate(1.8);
+}
